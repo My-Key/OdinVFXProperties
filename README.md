@@ -1,6 +1,6 @@
 # VFX Graph properties selector for Odin
 
-![](Images/preview.PNG)
+![](Images/dropdown.png)
 
 This attribute allows to draw dropdown with exposed properties from Visual Effect component with ability to filter by type.
 
@@ -12,7 +12,11 @@ Put `OdinVFXProperties` folder into Unity project
 
 Just add `VFXPropertySelectorAttribute` attribute to `string` or `ExposedProperty`.
 
+If string to resolve `VisualEffect` is not provided it will try to find one from sibling properties.
+
 ## Example
+
+![](Images/preview.PNG)
 
 This example code was used for preview screen above
 
