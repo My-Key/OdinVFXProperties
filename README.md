@@ -1,6 +1,6 @@
 # VFX Graph properties selector for Odin
 
-![](Images/preview.png)
+![](Images/preview.PNG)
 
 This attribute allows to draw dropdown with exposed properties from Visual Effect component with ability to filter by type.
 
