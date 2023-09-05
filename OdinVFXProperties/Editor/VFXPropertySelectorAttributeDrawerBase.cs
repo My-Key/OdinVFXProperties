@@ -154,7 +154,11 @@ public class ExposedPropertyVFXPropertySelectorAttributeDrawer : VFXPropertySele
 
 	protected override void DrawPropertyLayout(GUIContent label)
 	{
-		var valueChangedFromPrefab = m_inspectorProperty.ValueEntry.ValueChangedFromPrefab;
+		var valueChangedFromPrefab = false;
+		
+		if (!Application.isPlaying && m_inspectorProperty != null && m_inspectorProperty.ValueEntry != null)
+			valueChangedFromPrefab = m_inspectorProperty.ValueEntry.ValueChangedFromPrefab;
+		
 		GUIHelper.PushIsBoldLabel(valueChangedFromPrefab);
 		
 		base.DrawPropertyLayout(label);
