@@ -60,6 +60,9 @@ public abstract class VFXPropertySelectorAttributeDrawerBase<T> : OdinAttributeD
 	{
 		foreach (var child in currentProperty.ParentValueProperty.Children)
 		{
+			if (child.ValueEntry == null)
+				continue;
+
 			var value = child.ValueEntry.TypeOfValue;
 
 			if (!value.InheritsFrom(type)) 
