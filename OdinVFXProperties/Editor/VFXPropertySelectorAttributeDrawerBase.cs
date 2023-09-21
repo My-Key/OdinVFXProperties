@@ -220,8 +220,9 @@ public class VFXPropertySelector : OdinSelector<string>
 			VFXPropertySelectorAttribute.Type.Gradient => propertyType == typeof(Gradient),
 			VFXPropertySelectorAttribute.Type.Mesh => propertyType == typeof(Mesh),
 			VFXPropertySelectorAttribute.Type.Bool => propertyType == typeof(bool),
-			VFXPropertySelectorAttribute.Type.ComputeBuffer => propertyType == typeof(ComputeBuffer),
-			_ => true
+			VFXPropertySelectorAttribute.Type.GraphicsBuffer => propertyType == typeof(GraphicsBuffer),
+			VFXPropertySelectorAttribute.Type.SkinnedMeshRenderer => propertyType == typeof(SkinnedMeshRenderer),
+			_ => propertyType != null
 		};
 	}
 
@@ -231,6 +232,8 @@ public class VFXPropertySelector : OdinSelector<string>
 		m_type = type;
 
 		SelectionTree.Selection.SupportsMultiSelect = false;
+
+		// Needed in versions of Odin 3.13+, you can remove it when using in earlier one
 		SelectionTree.Config.SelectMenuItemsOnMouseDown = true;
 	}
 

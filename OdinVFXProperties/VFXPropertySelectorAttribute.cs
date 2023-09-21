@@ -17,7 +17,8 @@ public class VFXPropertySelectorAttribute : Attribute
 		Gradient,
 		Mesh,
 		Bool,
-		ComputeBuffer
+		GraphicsBuffer,
+		SkinnedMeshRenderer
 	}
 
 	public readonly Type m_type;
