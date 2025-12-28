@@ -1,5 +1,12 @@
 ﻿using System;
 
+
+#if UNITY_EDITOR
+using Sirenix.OdinInspector.Editor;
+
+[assembly: OdinVisualDesignerAttributeItem("VFX", typeof(VFXPropertySelectorAttribute))]
+#endif
+
 public class VFXPropertySelectorAttribute : Attribute
 {
 	public enum Type
