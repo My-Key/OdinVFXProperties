@@ -25,6 +25,14 @@ public abstract class VFXPropertySelectorAttributeDrawerBase<T> : OdinAttributeD
 		
 		UpdateExposedProperties();
 		
+		UpdateValue();
+
+		Property.ValueEntry.OnValueChanged += ValeChanged;
+		Property.ValueEntry.OnChildValueChanged += ValeChanged;
+	}
+
+	private void UpdateValue()
+	{
 		// If value is empty or not of correct type, set first one from exposed values that is valid 
 		if (string.IsNullOrWhiteSpace(GetValue()) || m_exposedProperties
 			    .Where(x => VFXPropertySelector.IsCorrectType(x.type, Attribute.m_type))
@@ -36,6 +44,8 @@ public abstract class VFXPropertySelectorAttributeDrawerBase<T> : OdinAttributeD
 
 		UpdateButtonContent();
 	}
+
+	private void ValeChanged(int obj) => UpdateValue();
 
 	public static (InspectorProperty property, string attribute) 
 		GetValueResolverOverride(InspectorProperty property, string reference, Type type)
@@ -145,48 +155,6 @@ public abstract class VFXPropertySelectorAttributeDrawerBase<T> : OdinAttributeD
 
 public class ExposedPropertyVFXPropertySelectorAttributeDrawer : VFXPropertySelectorAttributeDrawerBase<ExposedProperty>
 {
-	private static readonly Color PREFAB_MODIFICATION_COLOR = new Color(0.003921569f, 0.6f, 0.9215686f, 0.75f);
-	private InspectorProperty m_inspectorProperty;
-
-	protected override void Initialize()
-	{
-		base.Initialize();
-
-		m_inspectorProperty = Property.Children["m_Name"];
-	}
-
-	protected override void DrawPropertyLayout(GUIContent label)
-	{
-		var valueChangedFromPrefab = false;
-		
-		if (!Application.isPlaying && m_inspectorProperty != null && m_inspectorProperty.ValueEntry != null)
-			valueChangedFromPrefab = m_inspectorProperty.ValueEntry.ValueChangedFromPrefab;
-		
-		GUIHelper.PushIsBoldLabel(valueChangedFromPrefab);
-		
-		base.DrawPropertyLayout(label);
-
-		GUIHelper.PopIsBoldLabel();
-
-		if (valueChangedFromPrefab && Event.current.type == EventType.Repaint &&
-		    GlobalConfig<GeneralDrawerConfig>.Instance.ShowPrefabModifiedValueBar &&
-		    Property.LastDrawnValueRect != new Rect())
-		{
-			var lastDrawnValueRect = Property.LastDrawnValueRect;
-			lastDrawnValueRect.width = 2f;
-
-			lastDrawnValueRect.x -= 2.5f;
-			lastDrawnValueRect.x += GUIHelper.CurrentIndentAmount;
-
-			if (Property.ChildResolver is ICollectionResolver)
-				lastDrawnValueRect.height -= 3.5f;
-
-			GUIHelper.PushGUIEnabled(true);
-			SirenixEditorGUI.DrawSolidRect(lastDrawnValueRect, PREFAB_MODIFICATION_COLOR);
-			GUIHelper.PopGUIEnabled();
-		}
-	}
-
 	protected override string GetValue() => ValueEntry.SmartValue.ToString();
 
 	protected override void SetValue(string name) => ValueEntry.SmartValue = name;
